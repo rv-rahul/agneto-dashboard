@@ -1,0 +1,13 @@
+<div class="light-card">
+  <section aria-label="Weather information" class="weather-content">
+    <div class="weather-main">
+      <mat-icon class="weather-icon">{{ weather.icon }}</mat-icon>
+      <span class="temperature">{{ weather.temperature }}&deg;</span>
+    </div>
+    <div class="weather-details">
+      <span class="condition">{{ weather.condition }}</span>
+      <span class="high-low">H: {{ weather.high }}&deg; &middot; L: {{ weather.low }}&deg;</span>
+      <span class="location">{{ weather.location }}</span>
+    </div>
+  </section>
+</div>

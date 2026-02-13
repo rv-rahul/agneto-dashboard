@@ -1,0 +1,61 @@
+<div class="events-sections">
+  <!-- Upcoming Events -->
+  <div class="card light-card">
+    <div class="section-header">
+      <mat-icon class="section-icon events-color">event</mat-icon>
+      <h3 class="section-title">Upcoming Events</h3>
+    </div>
+    <div class="items-list">
+      @for (item of events; track item.id) {
+        <div class="event-item">
+          <div class="item-dot events-dot"></div>
+          <div class="item-info">
+            <span class="item-title">{{ item.title }}</span>
+            <span class="item-date">{{ item.date }}</span>
+          </div>
+        </div>
+      }
+      @empty {
+        <p class="empty-text">No upcoming events</p>
+      }
+    </div>
+  </div>
+
+  <!-- Holidays -->
+  <div class="card light-card">
+    <div class="section-header">
+      <mat-icon class="section-icon holiday-color">beach_access</mat-icon>
+      <h3 class="section-title">Holidays</h3>
+    </div>
+    <div class="items-list">
+      @for (item of holidays; track item.id) {
+        <div class="event-item">
+          <div class="item-dot holiday-dot"></div>
+          <div class="item-info">
+            <span class="item-title">{{ item.title }}</span>
+            <span class="item-date">{{ item.date }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Birthdays -->
+  <div class="card light-card">
+    <div class="section-header">
+      <mat-icon class="section-icon birthday-color">cake</mat-icon>
+      <h3 class="section-title">Birthdays</h3>
+    </div>
+    <div class="items-list">
+      @for (item of birthdays; track item.id) {
+        <div class="event-item">
+          <div class="item-dot birthday-dot"></div>
+          <div class="item-info">
+            <span class="item-title">{{ item.title }}</span>
+            <span class="item-date">{{ item.date }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
