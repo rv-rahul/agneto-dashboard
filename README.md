@@ -98,7 +98,7 @@ DB_USER=dashboard_user
 DB_PASSWORD=your_db_password
 DB_NAME=team_agneto_db
 
-WEATHER_API_KEY=your_openweathermap_api_key
+WEATHER_API_KEY=ffc161391afc291dc09c055a952e8117
 WEATHER_CITY=Dallas
 WEATHER_COUNTRY=US
 WEATHER_UNITS=imperial
