@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ClockComponent } from '../clock/clock.component';
+import { WeatherComponent } from '../weather/weather.component';
 import { TeamInfoComponent } from '../team-info/team-info.component';
 import { NotificationScheduleComponent } from '../notification-schedule/notification-schedule.component';
 import { UpcomingEventsComponent, DashboardEvent } from '../upcoming-events/upcoming-events.component';
@@ -18,7 +18,7 @@ import { CreateEventDialogComponent, NewEvent } from '../create-event-dialog/cre
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    ClockComponent,
+    WeatherComponent,
     TeamInfoComponent,
     NotificationScheduleComponent,
     UpcomingEventsComponent,
@@ -29,6 +29,7 @@ import { CreateEventDialogComponent, NewEvent } from '../create-event-dialog/cre
 })
 export class DashboardComponent {
   @ViewChild(UpcomingEventsComponent) upcomingEvents!: UpcomingEventsComponent;
+  @ViewChild(TeamInfoComponent) teamInfo!: TeamInfoComponent;
 
   private nextId = 100;
 
@@ -36,8 +37,9 @@ export class DashboardComponent {
 
   openTeamMembers(): void {
     this.dialog.open(TeamMembersDialogComponent, {
-      width: '560px',
-      autoFocus: 'dialog'
+      width: '620px',
+      autoFocus: 'dialog',
+      data: { members: this.teamInfo?.members ?? [] }
     });
   }
 

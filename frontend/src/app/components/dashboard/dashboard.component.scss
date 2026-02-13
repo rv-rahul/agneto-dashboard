@@ -58,10 +58,13 @@
   gap: 24px;
 }
 
-.top-row {
+.section-grid {
   display: grid;
-  grid-template-columns: 3fr 2fr;
   gap: 24px;
+}
+
+.section-two-col {
+  grid-template-columns: 1fr 1fr;
 }
 
 .section-row {
@@ -83,7 +86,7 @@
     gap: 16px;
   }
 
-  .top-row {
+  .section-two-col {
     grid-template-columns: 1fr;
   }
 }

@@ -18,28 +18,20 @@
 </header>
 
 <main class="dashboard-content">
-  <!-- Row 1: Clock + Team Info -->
-  <div class="top-row">
-    <div class="grid-clock">
-      <app-clock />
-    </div>
-    <div class="grid-team">
-      <app-team-info />
-    </div>
+  <!-- Section 1: Weather + Team Info -->
+  <div class="section-grid section-two-col">
+    <app-weather />
+    <app-team-info />
   </div>
 
-  <!-- Row 2: Notification Schedule -->
-  <section class="section-row">
-    <app-notification-schedule />
-  </section>
-
-  <!-- Row 3: Events / Holidays / Birthdays -->
+  <!-- Section 2: Events / Holidays / Birthdays -->
   <section class="section-row">
     <app-upcoming-events />
   </section>
 
-  <!-- Row 4: Free-form notes -->
-  <section class="section-row">
+  <!-- Section 3: Notifications + Notes -->
+  <div class="section-grid section-two-col">
+    <app-notification-schedule />
     <app-events />
-  </section>
+  </div>
 </main>

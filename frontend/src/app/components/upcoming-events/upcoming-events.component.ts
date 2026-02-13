@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
+import { ApiService } from '../../services/api.service';
 
 export interface DashboardEvent {
   id: number;
@@ -43,11 +44,19 @@ export class UpcomingEventsComponent implements OnInit {
     { id: 22, title: 'Grace Lee', date: 'Sunday, Mar 16', type: 'birthday' },
   ];
 
+  constructor(private apiService: ApiService) {}
+
   ngOnInit(): void {
-    this.events = [...this.sampleEvents];
-    this.holidays = [...this.sampleHolidays];
-    this.birthdays = [...this.sampleBirthdays];
-    this.loadCustomEvents();
+    this.apiService.getEvents().subscribe(events => {
+      this.events = events.length > 0 ? events : [...this.sampleEvents];
+      this.loadCustomEvents();
+    });
+    this.apiService.getHolidays().subscribe(holidays => {
+      this.holidays = holidays.length > 0 ? holidays : [...this.sampleHolidays];
+    });
+    this.apiService.getBirthdays().subscribe(birthdays => {
+      this.birthdays = birthdays.length > 0 ? birthdays : [...this.sampleBirthdays];
+    });
   }
 
   addEvent(event: DashboardEvent): void {

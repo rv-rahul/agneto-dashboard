@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mysql:*)",
+      "Bash(npm install)",
+      "Bash(node -e:*)",
+      "Bash(mysqladmin --version:*)",
+      "Bash(MYSQL=\"/C/Program Files/MySQL/MySQL Server 8.0/bin/mysql.exe\")",
+      "Bash(\"$MYSQL\" -u dashboard_user -pagneto123 -e \"SELECT 1;\" team_agneto_db)",
+      "Bash(\"$MYSQL\" -u dashboard_user -pagneto123 team_agneto_db -e \"SHOW TABLES;\")",
+      "Bash(curl:*)",
+      "Bash(netstat:*)",
+      "Read(//c/code/agneto-dashboard/**)",
+      "Bash(ls:*)",
+      "Bash(test:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(git rebase:*)"
+    ]
+  }
+}

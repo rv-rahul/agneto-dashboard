@@ -1,14 +1,16 @@
 {
-  "name": "agneto-dashboard",
-  "version": "0.0.0",
+  "name": "agneto-dashboard-frontend",
+  "version": "1.0.0",
+  "description": "Team Agneto Dashboard — Angular 19 frontend",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "dev": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^19.2.18",
     "@angular/cdk": "^19.2.19",

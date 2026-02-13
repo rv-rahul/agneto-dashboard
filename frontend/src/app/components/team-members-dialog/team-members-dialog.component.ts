@@ -1,14 +1,9 @@
-import { Component } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-
-interface TeamMember {
-  name: string;
-  role: string;
-  avatar: string;
-}
+import { TeamMember } from '../../models/models';
 
 @Component({
   selector: 'app-team-members-dialog',
@@ -20,7 +15,7 @@ interface TeamMember {
       Team Agneto Members
     </h2>
     <mat-dialog-content class="members-content">
-      @for (member of members; track member.name) {
+      @for (member of members; track member.id) {
         <div class="member-card">
           <div class="member-avatar" [style.background]="member.avatar">
             {{ member.name.charAt(0) }}
@@ -28,6 +23,22 @@ interface TeamMember {
           <div class="member-info">
             <span class="member-name">{{ member.name }}</span>
             <span class="member-role">{{ member.role }}</span>
+            <div class="member-details">
+              <span class="detail-item">
+                <mat-icon class="detail-icon">cake</mat-icon>
+                {{ member.birthday }}
+              </span>
+              <span class="detail-item">
+                <mat-icon class="detail-icon">phone</mat-icon>
+                {{ member.phoneNumbers[0] }}
+              </span>
+              @if (member.plannedLeaveStartDate) {
+                <span class="detail-item leave">
+                  <mat-icon class="detail-icon">event_busy</mat-icon>
+                  Leave: {{ member.plannedLeaveStartDate }} - {{ member.plannedLeaveEndDate }}
+                </span>
+              }
+            </div>
           </div>
         </div>
       }
@@ -53,12 +64,12 @@ interface TeamMember {
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       padding: 8px 0;
-      max-height: 400px;
+      max-height: 500px;
     }
 
     .member-card {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
       padding: 10px 12px;
       border-radius: 10px;
@@ -81,11 +92,13 @@ interface TeamMember {
       font-weight: 500;
       font-size: 1rem;
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
     .member-info {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .member-name {
@@ -99,6 +112,31 @@ interface TeamMember {
       color: #888;
     }
 
+    .member-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 4px;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      color: #999;
+    }
+
+    .detail-item.leave {
+      color: #e91e63;
+    }
+
+    .detail-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+    }
+
     .close-btn {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #fff;
@@ -106,19 +144,14 @@ interface TeamMember {
     }
   `]
 })
-export class TeamMembersDialogComponent {
-  members: TeamMember[] = [
-    { name: 'Alice Johnson', role: 'Tech Lead', avatar: '#667eea' },
-    { name: 'Bob Martinez', role: 'Senior Developer', avatar: '#764ba2' },
-    { name: 'Carol Williams', role: 'Full Stack Developer', avatar: '#4caf50' },
-    { name: 'David Chen', role: 'Frontend Developer', avatar: '#ff9800' },
-    { name: 'Emily Brown', role: 'Backend Developer', avatar: '#2196f3' },
-    { name: 'Frank Kumar', role: 'DevOps Engineer', avatar: '#e91e63' },
-    { name: 'Grace Lee', role: 'QA Engineer', avatar: '#009688' },
-    { name: 'Henry Wilson', role: 'UI/UX Designer', avatar: '#795548' },
-    { name: 'Irene Davis', role: 'Business Analyst', avatar: '#607d8b' },
-    { name: 'Jack Taylor', role: 'Scrum Master', avatar: '#ff5722' },
-    { name: 'Karen Moore', role: 'Junior Developer', avatar: '#3f51b5' },
-    { name: 'Leo Anderson', role: 'Junior Developer', avatar: '#8bc34a' },
-  ];
+export class TeamMembersDialogComponent implements OnInit {
+  members: TeamMember[] = [];
+
+  constructor(@Inject(MAT_DIALOG_DATA) private data: { members: TeamMember[] } | null) {}
+
+  ngOnInit(): void {
+    if (this.data?.members?.length) {
+      this.members = this.data.members;
+    }
+  }
 }

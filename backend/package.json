@@ -1,0 +1,31 @@
+{
+  "name": "agneto-dashboard-backend",
+  "version": "1.0.0",
+  "description": "Team Agneto Dashboard — Express REST API backend",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-validator": "^7.2.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "luxon": "^3.5.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.3",
+    "node-cron": "^3.0.3",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

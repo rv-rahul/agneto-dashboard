@@ -9,7 +9,6 @@ A full-stack team dashboard with an Angular 19 frontend and Node.js/Express back
 - **Team Members** — View team roster with contact details, birthdays, and planned leave
 - **Upcoming Events** — Track team events, holidays, and birthdays in a 3-column layout
 - **Daily Reminders** — Notification schedule for check-in, lunch, timesheet, and check-out
-- **Notes** — Quick team notes with local storage persistence
 - **Create Events** — Add new events, holidays, or birthdays via dialog
 
 ### Backend (Node.js/Express)
@@ -30,77 +29,176 @@ A full-stack team dashboard with an Angular 19 frontend and Node.js/Express back
 
 ```
 agneto-dashboard/
-├── src/app/                        # Angular frontend
-│   ├── models/models.ts            # Shared interfaces (TeamMember, WeatherData, etc.)
-│   ├── services/
-│   │   ├── api.service.ts          # REST API service (HttpClient)
-│   │   └── time.service.ts         # Clock/time observable service
-│   ├── components/
-│   │   ├── dashboard/              # Main layout (3-section grid)
-│   │   ├── weather/                # Weather card
-│   │   ├── team-info/              # Team member count card
-│   │   ├── team-members-dialog/    # Team roster dialog with details
-│   │   ├── upcoming-events/        # Events, holidays, birthdays (3-col)
-│   │   ├── notification-schedule/  # Daily reminders card
-│   │   ├── events/                 # Notes textarea
-│   │   ├── clock/                  # Clock display
-│   │   └── create-event-dialog/    # New event form dialog
-│   └── app.config.ts               # App providers (HttpClient, animations)
-├── sql/schema.sql                  # MySQL database schema
-├── src/ (backend)
-│   ├── app.js                      # Express app: middleware & routes
-│   ├── server.js                   # Server bootstrap
-│   ├── config/                     # DB, logger, constants
-│   ├── routes/                     # Express routers
-│   ├── controllers/                # Request/response handlers
-│   ├── services/                   # Business logic & DB queries
-│   └── jobs/                       # Cron job definitions
-└── package.json                    # Angular frontend dependencies
+├── backend/                        # Express REST API
+│   ├── src/
+│   │   ├── server.js               # Server bootstrap
+│   │   ├── app.js                  # Express app: middleware & routes
+│   │   ├── config/                 # DB pool, logger, constants, swagger
+│   │   ├── controllers/            # Request/response handlers
+│   │   ├── routes/                 # Express routers
+│   │   ├── services/               # Business logic & DB queries
+│   │   ├── middleware/             # Auth, error handler, 404
+│   │   ├── validators/             # express-validator rules
+│   │   └── jobs/                   # Cron jobs (weather, stats, cleanup)
+│   ├── sql/
+│   │   └── schema.sql              # MySQL 8 database schema
+│   ├── logs/                       # Runtime logs (error.log, combined.log)
+│   ├── .env                        # Local environment config (not committed)
+│   ├── .env.example                # Environment variable template
+│   └── package.json                # Backend dependencies only
+│
+├── frontend/                       # Angular 19 frontend
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── models/models.ts    # Shared interfaces (TeamMember, WeatherData, etc.)
+│   │   │   ├── services/
+│   │   │   │   ├── api.service.ts          # REST API calls (HttpClient)
+│   │   │   │   ├── notification.service.ts # Polls backend for active alerts
+│   │   │   │   ├── sound.service.ts        # Notification sounds
+│   │   │   │   └── time.service.ts         # Clock observable
+│   │   │   ├── components/
+│   │   │   │   ├── dashboard/              # Main layout container
+│   │   │   │   ├── weather/                # Weather card
+│   │   │   │   ├── clock/                  # Live clock display
+│   │   │   │   ├── team-info/              # Team member count
+│   │   │   │   ├── team-members-dialog/    # Full roster dialog
+│   │   │   │   ├── upcoming-events/        # Events, holidays, birthdays
+│   │   │   │   ├── notification-schedule/  # Daily reminders card
+│   │   │   │   ├── events/                 # Events list
+│   │   │   │   ├── create-event-dialog/    # New event form dialog
+│   │   │   │   └── reminder-dialog/        # Active notification modal
+│   │   │   └── app.config.ts               # App providers
+│   │   ├── main.ts
+│   │   ├── styles.scss
+│   │   └── index.html
+│   ├── angular.json
+│   ├── tsconfig.json
+│   └── package.json                # Frontend dependencies only
+│
+└── package.json                    # Workspace convenience scripts
 ```
 
 ## Setup
 
-### Frontend
+### Prerequisites
+
+- Node.js >= 20
+- MySQL 8.0+
+- OpenWeatherMap API key (free at [openweathermap.org/api](https://openweathermap.org/api))
+
+### 1. Clone and install dependencies
 
 ```bash
-npm install
-ng serve
+git clone <repo-url>
+cd agneto-dashboard
+npm run install:all
 ```
 
-Open `http://localhost:4200/` in your browser.
-
-### Backend
+Or install separately:
 
 ```bash
-npm install
-cp .env.example .env
-mysql -u root -p < sql/schema.sql
-npm run dev
+cd backend && npm install
+cd ../frontend && npm install
 ```
 
-Server starts on `http://localhost:3000`.
+### 2. Set up the database
+
+```bash
+# Create DB and user in MySQL
+mysql -u root -p
+```
+
+```sql
+CREATE DATABASE team_agneto_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'dashboard_user'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON team_agneto_db.* TO 'dashboard_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+```bash
+mysql -u dashboard_user -p team_agneto_db < backend/sql/schema.sql
+```
+
+### 3. Configure the backend environment
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+Edit `backend/.env`:
+
+```env
+DB_PASSWORD=your_password
+WEATHER_API_KEY=your_openweathermap_key
+WEATHER_CITY=Dallas
+WEATHER_COUNTRY=US
+```
+
+### 4. Start the backend (Terminal 1)
+
+```bash
+cd backend
+npm run dev        # development (nodemon, auto-reload)
+# or
+npm start          # production
+```
+
+API runs at `http://localhost:3000`. Visit `/health` to confirm.
+
+### 5. Start the frontend (Terminal 2)
+
+```bash
+cd frontend
+npm start
+```
+
+App runs at `http://localhost:4200`.
+
+### From the workspace root
+
+```bash
+npm run dev:backend     # start Express API
+npm run dev:frontend    # start Angular dev server
+```
 
 ## API Endpoints
 
-| Method | Endpoint                  | Description              |
-|--------|---------------------------|--------------------------|
-| GET    | `/health`                 | Health check             |
-| GET    | `/api/time`               | Server time              |
-| GET    | `/api/weather/current`    | Current weather          |
-| GET    | `/api/system-stats/current` | Pi system stats        |
-| GET    | `/api/team`               | Team members             |
-| GET    | `/api/events`             | Events (filter by type)  |
-| POST   | `/api/events`             | Create event             |
-| PUT    | `/api/events/:id`         | Update event             |
-| DELETE | `/api/events/:id`         | Delete event             |
-| GET    | `/api/notifications/active` | Active notifications   |
-
 All responses follow: `{ "success": true, "data": {} }`
+
+| Method | Endpoint                      | Description                        |
+|--------|-------------------------------|------------------------------------|
+| GET    | `/health`                     | Health check                       |
+| GET    | `/api/time`                   | Server time (CST + UTC)            |
+| GET    | `/api/weather/current`        | Latest weather snapshot            |
+| POST   | `/api/weather/refresh`        | Force weather refresh from OWM     |
+| GET    | `/api/system-stats/current`   | Live Pi CPU / RAM / disk / temp    |
+| GET    | `/api/team`                   | Team name, count, and roster       |
+| GET    | `/api/events`                 | Events (filter: `?type=` `?upcoming=true`) |
+| POST   | `/api/events`                 | Create event                       |
+| PUT    | `/api/events/:id`             | Update event (partial)             |
+| DELETE | `/api/events/:id`             | Delete event                       |
+| GET    | `/api/notifications/active`   | Currently active time-window alerts|
+| GET    | `/api-docs`                   | Swagger UI API documentation       |
+
+## Notification Windows (CST)
+
+| Type       | Days        | Window          |
+|------------|-------------|-----------------|
+| Check-In   | Mon–Fri     | 09:01 – 09:05   |
+| Lunch      | Mon–Fri     | 12:00 – 12:15   |
+| Check-Out  | Mon–Fri     | 17:00 – 17:10   |
+| Timesheet  | Friday only | 16:00 – 16:15   |
 
 ## Build
 
 ```bash
-ng build
+cd frontend
+npm run build
 ```
 
-Build artifacts are output to the `dist/` directory.
+Output goes to `frontend/dist/`.
+
+## Deployment on Raspberry Pi
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for full Pi setup with PM2.
