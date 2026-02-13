@@ -135,32 +135,42 @@ WEATHER_CITY=Dallas
 WEATHER_COUNTRY=US
 ```
 
-### 4. Start the backend (Terminal 1)
+### 4. Start both with one command (recommended)
+
+From the workspace root:
 
 ```bash
-cd backend
-npm run dev        # development (nodemon, auto-reload)
-# or
-npm start          # production
+npm run dev
 ```
 
-API runs at `http://localhost:3000`. Visit `/health` to confirm.
+This starts both backend and frontend concurrently with colour-coded output:
+- `[backend]` → http://localhost:3000
+- `[frontend]` → http://localhost:4200
+- Swagger docs → http://localhost:3000/api-docs
 
-### 5. Start the frontend (Terminal 2)
+Press `Ctrl+C` to stop both at once.
+
+### Or start separately
 
 ```bash
+# Terminal 1 — backend (nodemon, auto-reload)
+cd backend
+npm run dev
+
+# Terminal 2 — frontend
 cd frontend
 npm start
 ```
 
-App runs at `http://localhost:4200`.
+### Available root scripts
 
-### From the workspace root
-
-```bash
-npm run dev:backend     # start Express API
-npm run dev:frontend    # start Angular dev server
-```
+| Command | Description |
+|---|---|
+| `npm run dev` | Start both backend + frontend (development) |
+| `npm start` | Start both backend + frontend (production) |
+| `npm run dev:backend` | Backend only (nodemon) |
+| `npm run dev:frontend` | Frontend only |
+| `npm run install:all` | Install deps in both backend/ and frontend/ |
 
 ## API Endpoints
 

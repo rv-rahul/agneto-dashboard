@@ -14,7 +14,8 @@ async function bootstrap() {
 
     // 2. Start HTTP server
     app.listen(PORT, '0.0.0.0', () => {
-      logger.info(`Team Agneto Dashboard API running → http://0.0.0.0:${PORT}`);
+      logger.info(`Team Agneto Dashboard API running → http://localhost:${PORT}`);
+      logger.info(`Swagger docs         → http://localhost:${PORT}/api-docs`);
       logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
       logger.info('Health check: GET /health');
     });
