@@ -1,0 +1,12 @@
+<div class="light-card">
+  <section aria-label="Current time and date" class="clock-content">
+    <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+      <mat-icon class="clock-icon">schedule</mat-icon>
+      <span class="time-text">{{ currentTime$ | async }}</span>
+    </div>
+    <div class="date-display" aria-label="Current date">
+      {{ currentDate$ | async }}
+    </div>
+    <div class="timezone-label">System Local Time</div>
+  </section>
+</div>

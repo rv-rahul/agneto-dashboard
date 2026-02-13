@@ -1,0 +1,64 @@
+.light-card {
+  background: #fff;
+  border: 1px solid #e8e8ef;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(102, 126, 234, 0.1);
+  }
+}
+
+.events-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.events-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  color: #667eea;
+}
+
+.events-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d2d3a;
+}
+
+.events-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.events-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f8f9fc;
+  border: 1px solid #e0e0ea;
+  border-radius: 10px;
+  padding: 14px;
+  color: #2d2d3a;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 0.92rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: #bbb;
+  }
+
+  &:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+  }
+}

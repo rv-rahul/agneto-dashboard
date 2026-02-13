@@ -1,0 +1,92 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 10px !important;
+  font-size: 0.85rem;
+
+  mat-icon {
+    margin-right: 4px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+  }
+}
+
+.dashboard-content {
+  max-width: 1060px;
+  margin: 28px auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.section-two-col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.section-row {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 16px;
+  }
+
+  .btn-label {
+    display: none;
+  }
+
+  .dashboard-content {
+    padding: 0 12px;
+    margin: 16px auto;
+    gap: 16px;
+  }
+
+  .section-two-col {
+    grid-template-columns: 1fr;
+  }
+}

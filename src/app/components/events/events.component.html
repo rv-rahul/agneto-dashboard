@@ -1,0 +1,19 @@
+<div class="light-card">
+  <div class="events-header">
+    <mat-icon class="events-icon">edit_note</mat-icon>
+    <div>
+      <h3 class="events-title">Notes</h3>
+      <p class="events-subtitle">Quick notes and reminders for the team</p>
+    </div>
+  </div>
+  <section aria-label="Team notes">
+    <textarea
+      class="events-textarea"
+      [(ngModel)]="eventsText"
+      (ngModelChange)="onEventsChange()"
+      placeholder="Add quick notes, reminders, links..."
+      rows="4"
+      aria-label="Team notes text area"
+    ></textarea>
+  </section>
+</div>
