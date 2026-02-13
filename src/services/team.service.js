@@ -14,10 +14,12 @@ async function getTeamInfo() {
   );
 
   const [members] = await query(
-    `SELECT id, full_name, email, role, birthday, joined_date
+    `SELECT id, employee_id, first_name, last_name, nick_name,
+            CONCAT(first_name, ' ', last_name) AS full_name,
+            email, role, birthday, joined_date
      FROM team_members
      WHERE is_active = 1
-     ORDER BY full_name ASC`,
+     ORDER BY last_name ASC, first_name ASC`,
     [],
   );
 

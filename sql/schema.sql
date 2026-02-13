@@ -67,16 +67,20 @@ CREATE TABLE IF NOT EXISTS system_stats (
 -- Static team roster. Update directly via MySQL or add a
 -- future admin endpoint.
 CREATE TABLE IF NOT EXISTS team_members (
-  id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  full_name   VARCHAR(255)  NOT NULL,
-  email       VARCHAR(255)  NULL,
-  role        VARCHAR(100)  NULL,
-  birthday    DATE          NULL     COMMENT 'Use 1900-MM-DD if year unknown',
-  is_active   TINYINT(1)    NOT NULL DEFAULT 1,
-  joined_date DATE          NULL,
-  created_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id            INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  employee_id   VARCHAR(20)   NOT NULL COMMENT 'Unique employee ID e.g. AGN-001',
+  first_name    VARCHAR(100)  NOT NULL,
+  last_name     VARCHAR(100)  NOT NULL,
+  nick_name     VARCHAR(50)   NULL     COMMENT 'Preferred short name for display',
+  email         VARCHAR(255)  NULL,
+  role          VARCHAR(100)  NULL,
+  birthday      DATE          NULL     COMMENT 'Use 1900-MM-DD if year unknown',
+  is_active     TINYINT(1)    NOT NULL DEFAULT 1,
+  joined_date   DATE          NULL,
+  created_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
+  UNIQUE KEY uk_employee_id (employee_id),
   UNIQUE KEY uk_email (email),
   INDEX idx_is_active (is_active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -135,5 +139,5 @@ CREATE TABLE IF NOT EXISTS api_call_log (
 
 -- ─── Seed: Placeholder team member ──────────────────────────
 -- Replace with actual team members.
-INSERT IGNORE INTO team_members (full_name, email, role, is_active)
-VALUES ('Team Agneto Admin', 'admin@teamagneto.local', 'Admin', 1);
+INSERT IGNORE INTO team_members (employee_id, first_name, last_name, email, role, is_active)
+VALUES ('AGN-000', 'Team', 'Agneto', 'admin@teamagneto.local', 'Admin', 1);
