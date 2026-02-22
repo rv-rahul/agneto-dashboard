@@ -8,14 +8,17 @@ A full-stack team dashboard with an Angular 19 frontend and Node.js/Express back
 - **Weather Card** — Current weather conditions with temperature and forecast
 - **Team Members** — View team roster with contact details, birthdays, and planned leave
 - **Upcoming Events** — Track team events, holidays, and birthdays in a 3-column layout
+- **Seating Arrangement** — Persistent dev table seating with animated shuffle (password-protected)
 - **Daily Reminders** — Notification schedule for check-in, lunch, timesheet, and check-out
 - **Create Events** — Add new events, holidays, or birthdays via dialog
+- **Theme Switcher** — 6 switchable color themes
 
 ### Backend (Node.js/Express)
 - **System Stats** — Live CPU, RAM, disk usage, and CPU temperature from the Raspberry Pi
 - **Weather** — Current weather and history via OpenWeatherMap API (auto-fetched every 30 min)
 - **Team** — Active team member roster served from MySQL
 - **Events** — Full CRUD for events, holidays, and birthdays
+- **Seating** — Persisted shuffle seed with password-protected updates
 - **Notifications** — Time-window based alerts polled by Angular every 30 seconds
 - **Background Jobs** — Automated data collection and daily cleanup via cron
 
@@ -41,7 +44,8 @@ agneto-dashboard/
 │   │   ├── validators/             # express-validator rules
 │   │   └── jobs/                   # Cron jobs (weather, stats, cleanup)
 │   ├── sql/
-│   │   └── schema.sql              # MySQL 8 database schema
+│   │   ├── schema.sql              # MySQL 8 database schema
+│   │   └── seating_seed.sql        # Seating config migration
 │   ├── logs/                       # Runtime logs (error.log, combined.log)
 │   ├── .env                        # Local environment config (not committed)
 │   ├── .env.example                # Environment variable template
@@ -64,6 +68,7 @@ agneto-dashboard/
 │   │   │   │   ├── team-members-dialog/    # Full roster dialog
 │   │   │   │   ├── upcoming-events/        # Events, holidays, birthdays
 │   │   │   │   ├── notification-schedule/  # Daily reminders card
+│   │   │   │   ├── seating-arrangement/     # Dev table seating layout
 │   │   │   │   ├── events/                 # Events list
 │   │   │   │   ├── create-event-dialog/    # New event form dialog
 │   │   │   │   └── reminder-dialog/        # Active notification modal
@@ -118,6 +123,7 @@ EXIT;
 
 ```bash
 mysql -u dashboard_user -p team_agneto_db < backend/sql/schema.sql
+mysql -u dashboard_user -p team_agneto_db < backend/sql/seating_seed.sql
 ```
 
 ### 3. Configure the backend environment
@@ -133,6 +139,7 @@ DB_PASSWORD=your_password
 WEATHER_API_KEY=your_openweathermap_key
 WEATHER_CITY=Dallas
 WEATHER_COUNTRY=US
+SHUFFLE_PASSWORD=your_shuffle_password
 ```
 
 ### 4. Start both with one command (recommended)
@@ -188,6 +195,8 @@ All responses follow: `{ "success": true, "data": {} }`
 | POST   | `/api/events`                 | Create event                       |
 | PUT    | `/api/events/:id`             | Update event (partial)             |
 | DELETE | `/api/events/:id`             | Delete event                       |
+| GET    | `/api/seating`                | Get current seating seed           |
+| PUT    | `/api/seating`                | Update seed (requires password)    |
 | GET    | `/api/notifications/active`   | Currently active time-window alerts|
 | GET    | `/api-docs`                   | Swagger UI API documentation       |
 
