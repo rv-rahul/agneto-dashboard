@@ -21,40 +21,64 @@
     </div>
   </div>
 
-  <!-- Holidays -->
-  <div class="card light-card">
+  <!-- Official Holidays -->
+  <div class="card light-card holiday-card">
     <div class="section-header">
-      <mat-icon class="section-icon holiday-color">beach_access</mat-icon>
-      <h3 class="section-title">Holidays</h3>
+      <mat-icon class="section-icon holiday-color">celebration</mat-icon>
+      <h3 class="section-title">Official Holidays</h3>
     </div>
     <div class="items-list">
       @for (item of holidays; track item.id) {
-        <div class="event-item">
-          <div class="item-dot holiday-dot"></div>
+        <div class="event-item holiday-item"
+             [class.active]="selectedHoliday?.id === item.id"
+             (click)="toggleHolidayCard(item)">
+          <span class="item-emoji">{{ item.icon }}</span>
           <div class="item-info">
             <span class="item-title">{{ item.title }}</span>
             <span class="item-date">{{ item.date }}</span>
           </div>
+          <mat-icon class="expand-icon">{{ selectedHoliday?.id === item.id ? 'expand_less' : 'expand_more' }}</mat-icon>
         </div>
+        @if (selectedHoliday?.id === item.id) {
+          <div class="detail-card holiday-detail slideIn">
+            <span class="detail-emoji">{{ item.icon }}</span>
+            <p class="detail-text">{{ item.description }}</p>
+          </div>
+        }
       }
     </div>
   </div>
 
   <!-- Birthdays -->
-  <div class="card light-card">
+  <div class="card light-card birthday-card">
     <div class="section-header">
       <mat-icon class="section-icon birthday-color">cake</mat-icon>
       <h3 class="section-title">Birthdays</h3>
     </div>
     <div class="items-list">
       @for (item of birthdays; track item.id) {
-        <div class="event-item">
-          <div class="item-dot birthday-dot"></div>
+        <div class="event-item birthday-item"
+             [class.active]="selectedBirthday?.id === item.id"
+             (click)="toggleBirthdayCard(item)">
+          <span class="item-emoji">{{ item.icon }}</span>
           <div class="item-info">
             <span class="item-title">{{ item.title }}</span>
             <span class="item-date">{{ item.date }}</span>
           </div>
+          <mat-icon class="expand-icon">{{ selectedBirthday?.id === item.id ? 'expand_less' : 'expand_more' }}</mat-icon>
         </div>
+        @if (selectedBirthday?.id === item.id) {
+          <div class="detail-card birthday-detail slideIn">
+            <span class="detail-emoji">🎂</span>
+            <p class="detail-text">{{ item.description }}</p>
+            <div class="confetti-row">
+              <span>🎈</span><span>🎁</span><span>🎊</span><span>🥳</span><span>🎈</span>
+            </div>
+          </div>
+        }
+      }
+      @empty {
+        <p class="empty-text">No upcoming birthdays</p>
       }
     </div>
   </div>

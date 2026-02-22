@@ -15,7 +15,7 @@ export class EventsComponent implements OnInit {
   eventsText = '';
 
   ngOnInit(): void {
-    this.eventsText = localStorage.getItem(STORAGE_KEY) ?? '';
+    this.eventsText = localStorage.getItem(STORAGE_KEY) ?? 'Full parity of Claimant Portal code ETA is 2/27';
   }
 
   onEventsChange(): void {

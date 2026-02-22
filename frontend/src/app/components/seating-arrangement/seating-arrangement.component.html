@@ -1,4 +1,4 @@
-<div class="card light-card seating-card">
+<div class="card light-card seating-card" [class.shake]="isShuffling">
   <div class="section-header">
     <mat-icon class="section-icon seating-icon">event_seat</mat-icon>
     <h3 class="section-title">Today's Seating</h3>
@@ -6,38 +6,92 @@
   </div>
 
   @if (topSeats.length > 0) {
-    <div class="table-layout">
-      <!-- Top row: 3 seats -->
+    <div class="table-scene">
+      <!-- Top row: 4 workstations -->
       <div class="seats-row top-row">
-        @for (seat of topSeats; track seat.nickname) {
-          <div class="seat">
-            <div class="seat-avatar" [style.background]="seat.avatar">
+        @for (seat of topSeats; track seat.nickname; let i = $index) {
+          <div class="workstation top"
+               [class.shuffling]="seat.shuffling"
+               [class.landed]="seat.landed"
+               [style.animation-delay]="seat.landed ? (i * 120) + 'ms' : '0ms'">
+            <!-- Chair -->
+            <div class="chair top-chair">
+              <div class="chair-back"></div>
+              <div class="chair-seat"></div>
+            </div>
+            <!-- Person avatar -->
+            <div class="person" [style.background]="seat.avatar">
               {{ seat.initial }}
             </div>
-            <span class="seat-nickname">{{ seat.nickname }}</span>
+            <span class="person-name">{{ seat.nickname }}</span>
+            <!-- Monitor -->
+            <div class="monitor">
+              <div class="monitor-screen">
+                <div class="screen-content">
+                  <div class="code-line short"></div>
+                  <div class="code-line long"></div>
+                  <div class="code-line medium"></div>
+                </div>
+              </div>
+              <div class="monitor-stand"></div>
+              <div class="monitor-base"></div>
+            </div>
           </div>
         }
       </div>
 
-      <!-- Conference table -->
-      <div class="conference-table">
-        <mat-icon class="table-icon">table_restaurant</mat-icon>
-        <span class="table-label">Developer Table</span>
+      <!-- The long table -->
+      <div class="long-table">
+        <div class="table-surface">
+          <div class="table-texture"></div>
+          <div class="table-center-strip">
+            <mat-icon class="table-decor-icon">computer</mat-icon>
+            <span class="table-label">Dev Table</span>
+            <mat-icon class="table-decor-icon">code</mat-icon>
+          </div>
+        </div>
+        <div class="table-legs">
+          <div class="table-leg"></div>
+          <div class="table-leg"></div>
+          <div class="table-leg"></div>
+          <div class="table-leg"></div>
+        </div>
       </div>
 
-      <!-- Bottom row: 4 seats -->
+      <!-- Bottom row: 4 workstations -->
       <div class="seats-row bottom-row">
-        @for (seat of bottomSeats; track seat.nickname) {
-          <div class="seat">
-            <div class="seat-avatar" [style.background]="seat.avatar">
+        @for (seat of bottomSeats; track seat.nickname; let i = $index) {
+          <div class="workstation bottom"
+               [class.shuffling]="seat.shuffling"
+               [class.landed]="seat.landed"
+               [style.animation-delay]="seat.landed ? ((i + 4) * 120) + 'ms' : '0ms'">
+            <!-- Monitor -->
+            <div class="monitor flipped">
+              <div class="monitor-screen">
+                <div class="screen-content">
+                  <div class="code-line medium"></div>
+                  <div class="code-line short"></div>
+                  <div class="code-line long"></div>
+                </div>
+              </div>
+              <div class="monitor-stand"></div>
+              <div class="monitor-base"></div>
+            </div>
+            <!-- Person avatar -->
+            <span class="person-name">{{ seat.nickname }}</span>
+            <div class="person" [style.background]="seat.avatar">
               {{ seat.initial }}
             </div>
-            <span class="seat-nickname">{{ seat.nickname }}</span>
+            <!-- Chair -->
+            <div class="chair bottom-chair">
+              <div class="chair-seat"></div>
+              <div class="chair-back"></div>
+            </div>
           </div>
         }
       </div>
     </div>
   } @else {
-    <p class="empty-text">No developer data available</p>
+    <p class="empty-text">No team data available</p>
   }
 </div>

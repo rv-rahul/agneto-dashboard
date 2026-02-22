@@ -97,4 +97,17 @@ export class ApiService {
       catchError(() => of([]))
     );
   }
+
+  getSeatingSeed(): Observable<number | null> {
+    return this.http.get<{ success: boolean; data: { seed: number } }>(`${this.baseUrl}/seating`).pipe(
+      map(res => res.data.seed),
+      catchError(() => of(null))
+    );
+  }
+
+  updateSeatingSeed(seed: number, password: string): Observable<{ success: boolean; error?: string }> {
+    return this.http.put<{ success: boolean }>(`${this.baseUrl}/seating`, { seed, password }).pipe(
+      catchError(err => of({ success: false, error: err.error?.error || 'Shuffle failed' }))
+    );
+  }
 }

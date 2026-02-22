@@ -66,7 +66,17 @@ export class DashboardComponent {
   }
 
   shuffleSeats(): void {
-    this.seatingArrangement?.shuffle();
+    const password = window.prompt('Enter password to shuffle:');
+    if (!password) return;
+
+    const seed = Math.floor(Math.random() * 2147483647);
+    this.apiService.updateSeatingSeed(seed, password).subscribe(res => {
+      if (res.success) {
+        this.seatingArrangement?.shuffle(seed);
+      } else {
+        window.alert('Wrong password — shuffle denied.');
+      }
+    });
   }
 
   cycleTheme(): void {

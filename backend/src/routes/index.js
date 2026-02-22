@@ -8,6 +8,7 @@ const teamRoutes          = require('./team.routes');
 const eventsRoutes        = require('./events.routes');
 const notificationsRoutes = require('./notifications.routes');
 const timeRoutes          = require('./time.routes');
+const seatingRoutes       = require('./seating.routes');
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use('/team',          teamRoutes);
 router.use('/events',        eventsRoutes);
 router.use('/notifications', notificationsRoutes);
 router.use('/time',          timeRoutes);
+router.use('/seating',       seatingRoutes);
 
 module.exports = router;
